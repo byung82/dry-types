@@ -25,7 +25,12 @@ module Dry
       # @see DateTime.parse
       def to_date_time(input)
         return input unless input.respond_to?(:to_str)
-        DateTime.parse(input)
+
+        if defined?(ActiveSupport::TimeWithZone)
+          Time.zone.parse(input)
+        else
+          Time.parse(input)
+        end 
       rescue ArgumentError
         input
       end
@@ -35,7 +40,12 @@ module Dry
       # @see Time.parse
       def to_time(input)
         return input unless input.respond_to?(:to_str)
-        Time.parse(input)
+
+        if defined?(ActiveSupport::TimeWithZone)
+          Time.zone.parse(input)
+        else
+          Time.parse(input)
+        end
       rescue ArgumentError
         input
       end
